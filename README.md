@@ -10,6 +10,9 @@ Instructions may be found at <https://www.rust-lang.org/>.
 Next, since this game depends on Gate which depends on SDL2,
 install the SDL2 development libraries.
 Instructions may be found at <https://github.com/Rust-SDL2/rust-sdl2#sdl20-development-libraries>.
+You need to setup SDL2_Image and SDL2_Mixer as well.
+This is pretty easy on Linux, more difficult on Windows.
+OpenGL 3.0 or higher is required.
 
 With `gate_demo` set as the current directory, invoke `cargo run` on the command line
 (cargo is the package management system for Rust, and should have been installed
