@@ -1,6 +1,6 @@
 # Gate Demo
 A simple 2D platformer game that demonstrates the use of two Rust crates:
-[Gate](https://crates.io/crates/gate) and [Collider](https://crates.io/crates/gate_build).
+[Gate](https://crates.io/crates/gate) and [Collider](https://crates.io/crates/collider).
 
 ### Build Instructions
 
