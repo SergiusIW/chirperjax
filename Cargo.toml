@@ -1,0 +1,10 @@
+[package]
+name = "gate_demo"
+version = "0.1.0"
+
+[dependencies]
+gate = "0.1.0"
+collider = "0.3.0"
+
+[build-dependencies]
+gate_build = "0.1.0"
