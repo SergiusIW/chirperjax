@@ -19,6 +19,10 @@ With `gate_demo` set as the current directory, invoke `cargo run` on the command
 when you installed Rust).
 This will build and run the game.
 
+### Videos
+
+Introducing Gate and this Demo game: https://youtu.be/SR-Yx6nTfZY
+
 ### License
 
 The Gate Demo source code is licensed under the
