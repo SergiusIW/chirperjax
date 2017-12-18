@@ -30,8 +30,8 @@ use gate::renderer::{Renderer, Affine};
 use game_input::{GameInput, InputEvent};
 use game::GameBoard;
 use asset_id::{AssetId, MusicId, SpriteId};
+use level_loader::LEVEL_COUNT;
 
-const LEVELS: u32 = 7;
 const WINDOW_HEIGHT: u32 = 600;
 
 fn main() {
@@ -45,7 +45,7 @@ fn main() {
     gate::run(info, GameApp::new());
 }
 
-struct GameApp { input: GameInput, level: u32, board: GameBoard }
+struct GameApp { input: GameInput, level: usize, board: GameBoard }
 
 impl GameApp {
     pub fn new() -> GameApp {
@@ -53,7 +53,7 @@ impl GameApp {
     }
 
     fn load_next_level(&mut self) {
-        self.level = (self.level + 1) % LEVELS;
+        self.level = (self.level + 1) % LEVEL_COUNT;
         self.board = level_loader::load(self.level);
         if let Some(held_dir) = self.input.held_dir() {
             self.board.input(InputEvent::UpdateMovement(Some(held_dir)));

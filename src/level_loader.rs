@@ -14,14 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use std::fs::File;
-use std::io::Read;
-
 use game::{GameBoard, LasorKind, PlatformKind, WarpColor, Idx2};
 
-pub fn load(level_num: u32) -> GameBoard {
-    let level = LevelFile::new(&format!("assets/levels/level{}.txt", level_num));
-    let level_index = LevelFile::new(&format!("assets/levels/level{}_index.txt", level_num));
+pub const LEVEL_COUNT: usize = 7;
+
+const LEVELS: [&'static str; LEVEL_COUNT] = [
+    include_str!("levels/level0.txt"),
+    include_str!("levels/level1.txt"),
+    include_str!("levels/level2.txt"),
+    include_str!("levels/level3.txt"),
+    include_str!("levels/level4.txt"),
+    include_str!("levels/level5.txt"),
+    include_str!("levels/level6.txt"),
+];
+
+const LEVELS_INDEX: [&'static str; LEVEL_COUNT] = [
+    include_str!("levels/level0_index.txt"),
+    include_str!("levels/level1_index.txt"),
+    include_str!("levels/level2_index.txt"),
+    include_str!("levels/level3_index.txt"),
+    include_str!("levels/level4_index.txt"),
+    include_str!("levels/level5_index.txt"),
+    include_str!("levels/level6_index.txt"),
+];
+
+pub fn load(level_num: usize) -> GameBoard {
+    let level = LevelFile::new(LEVELS[level_num]);
+    let level_index = LevelFile::new(LEVELS_INDEX[level_num]);
 
     let mut board = GameBoard::builder(level.dims);
     for y in 0..level.dims.1 {
@@ -69,14 +88,10 @@ fn index_to_color(index: u32) -> WarpColor {
 struct LevelFile { dims: Idx2, grid: Vec<Vec<char>> }
 
 impl LevelFile {
-    fn new(filename: &str) -> LevelFile {
-        let mut file = File::open(filename).unwrap();
-        let mut string = String::new();
-        file.read_to_string(&mut string).unwrap();
-
-        let grid: Vec<Vec<char>> = string.lines().map(|s| s.chars().collect())
-                                                 .filter(|s: &Vec<char>| !s.is_empty())
-                                                 .collect();
+    fn new(file_contents: &str) -> LevelFile {
+        let grid: Vec<Vec<char>> = file_contents.lines().map(|s| s.chars().collect())
+                                                        .filter(|s: &Vec<char>| !s.is_empty())
+                                                        .collect();
         LevelFile { dims: (grid[0].len() as i32 - 1, grid.len() as i32), grid }
     }
 
