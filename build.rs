@@ -1,5 +1,5 @@
 // gate_demo, a demo game built using the "gate" game library.
-// Copyright (C) 2017  Matthew D. Michelotti
+// Copyright (C) 2017-2018  Matthew D. Michelotti
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,14 +24,17 @@ use gate_build::AssetPacker;
 // build script packs image assets into atlases and generates enums to reference assets
 
 fn main() {
+    let is_wasm = env::var("TARGET").map(|t| t.starts_with("wasm32")).unwrap_or(false);
     let out_dir = env::var("OUT_DIR").unwrap();
     let gen_code_path = Path::new(&out_dir).join("asset_id.rs");
 
-    let mut packer = AssetPacker::new(Path::new("assets"));
+    let assets_dir = if is_wasm { "html" } else { "assets" };
+    let mut packer = AssetPacker::new(Path::new(assets_dir));
     packer.cargo_rerun_if_changed();
     packer.sprites(Path::new("src_assets/sprites"));
     packer.tiles(Path::new("src_assets/tiles"));
     packer.music(Path::new("src_assets/music"));
     packer.sounds(Path::new("src_assets/sounds"));
+    if is_wasm { packer.gen_javascript_and_html(); }
     packer.gen_asset_id_code(&gen_code_path);
 }

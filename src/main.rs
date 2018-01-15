@@ -1,5 +1,5 @@
 // gate_demo, a demo game built using the "gate" game library.
-// Copyright (C) 2017  Matthew D. Michelotti
+// Copyright (C) 2017-2018  Matthew D. Michelotti
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ mod game;
 mod asset_id { include!(concat!(env!("OUT_DIR"), "/asset_id.rs")); }
 
 use gate::{App, Audio};
-use gate::app_info::{AppInfo, AppDims};
+use gate::app_info::AppInfo;
 use gate::input::{KeyEvent, KeyCode};
 use gate::renderer::{Renderer, Affine};
 
@@ -32,12 +32,8 @@ use game::GameBoard;
 use asset_id::{AssetId, MusicId, SpriteId};
 use level_loader::LEVEL_COUNT;
 
-const WINDOW_HEIGHT: u32 = 600;
-
 fn main() {
-    let window_width = (WINDOW_HEIGHT as f64 * (game::SCREEN_PIXELS.0 / game::SCREEN_PIXELS.1)) as u32;
-    let window_pixels = (window_width, WINDOW_HEIGHT);
-    let info = AppInfo::builder(AppDims { window_pixels, app_height: game::SCREEN_PIXELS.1 })
+    let info = AppInfo::with_app_height(game::SCREEN_PIXELS_HEIGHT)
                        .title("Gate Demo Game")
                        .print_workload_info()
                        .print_gl_info()

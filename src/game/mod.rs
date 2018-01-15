@@ -1,5 +1,5 @@
 // gate_demo, a demo game built using the "gate" game library.
-// Copyright (C) 2017  Matthew D. Michelotti
+// Copyright (C) 2017-2018  Matthew D. Michelotti
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,8 +58,7 @@ pub use self::warp::{WarpColor, LasorKind};
 pub type Idx2 = (i32, i32);
 
 const CELL_LEN: i32 = 8;
-const SCREEN_PIXELS_HEIGHT: f64 = CELL_LEN as f64 * 24.;
-pub const SCREEN_PIXELS: (f64, f64) = (SCREEN_PIXELS_HEIGHT * (4. / 3.), SCREEN_PIXELS_HEIGHT);
+pub const SCREEN_PIXELS_HEIGHT: f64 = CELL_LEN as f64 * 24.;
 
 pub struct GameBoard {
     id_gen: IdGen,
@@ -333,8 +332,9 @@ impl GameBoard {
     pub fn draw(&mut self, renderer: &mut Renderer<AssetId>) {
         let time = self.time();
         let player_pos = self.player_pos();
-        let camera = self.camera_pos();
-        background::draw(renderer, camera, self.room_pixels(), time);
+        let camera = self.camera_pos(renderer.app_width());
+        let screen_pixels_width = renderer.app_width();
+        background::draw(renderer, camera, self.room_pixels(), time, screen_pixels_width);
         {
             let renderer = &mut renderer.tiled_mode(camera.x, camera.y);
             for (&pos, cell) in self.grid.iter() { cell.draw(renderer, pos); }
@@ -361,13 +361,13 @@ impl GameBoard {
         }
     }
 
-    fn camera_pos(&self) -> Vec2 {
+    fn camera_pos(&self, screen_pixels_width: f64) -> Vec2 {
         fn coord(player: f64, room_pixels: f64, screen_pixels: f64) -> f64 {
             player.max(0.5 * screen_pixels).min(room_pixels - 0.5 * screen_pixels)
         }
         let player = self.player_pos();
         let room_pixels = self.room_pixels();
-        v2(coord(player.x, room_pixels.x, SCREEN_PIXELS.0), coord(player.y, room_pixels.y, SCREEN_PIXELS.1))
+        v2(coord(player.x, room_pixels.x, screen_pixels_width), coord(player.y, room_pixels.y, SCREEN_PIXELS_HEIGHT))
     }
 
     fn hb_pos(&self, id: HbId) -> Vec2 { self.collider.get_hitbox(id).value.pos }
