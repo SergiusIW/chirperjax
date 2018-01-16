@@ -2,22 +2,15 @@
 A simple 2D platformer game that demonstrates the use of two Rust crates:
 [Gate](https://crates.io/crates/gate) and [Collider](https://crates.io/crates/collider).
 
-### Build Instructions
+### Play Online
 
-First, if you have not already done so, install the Rust programming language.
-Instructions may be found at <https://www.rust-lang.org/>.
+Thanks to WebAssembly and WebGl, you can play this game online at
+<http://www.matthewmichelotti.com/games/gate_demo/play/>.
 
-Next, since this game depends on Gate which depends on SDL2,
-install the SDL2 development libraries.
-Instructions may be found at <https://github.com/Rust-SDL2/rust-sdl2#sdl20-development-libraries>.
-You need to setup SDL2_Image and SDL2_Mixer as well.
-This is pretty easy on Linux, more difficult on Windows.
-OpenGL 3.0 or higher is required.
+### Building
 
-With `gate_demo` set as the current directory, invoke `cargo run` on the command line
-(cargo is the package management system for Rust, and should have been installed
-when you installed Rust).
-This will build and run the game.
+Instructions are the same as building the Gate example app.
+See <https://github.com/SergiusIW/gate/tree/master/example>.
 
 ### Videos
 
