@@ -22,9 +22,7 @@ mod game_input;
 mod game;
 mod asset_id { include!(concat!(env!("OUT_DIR"), "/asset_id.rs")); }
 
-use gate::{App, Audio};
-use gate::app_info::AppInfo;
-use gate::input::{KeyEvent, KeyCode};
+use gate::{App, AppContext, AppInfo, KeyCode};
 use gate::renderer::{Renderer, Affine};
 
 use game_input::{GameInput, InputEvent};
@@ -36,8 +34,7 @@ fn main() {
     let info = AppInfo::with_app_height(game::SCREEN_PIXELS_HEIGHT)
                        .title("Gate Demo Game")
                        .print_workload_info()
-                       .print_gl_info()
-                       .build();
+                       .print_gl_info();
     gate::run(info, GameApp::new());
 }
 
@@ -58,23 +55,31 @@ impl GameApp {
 }
 
 impl App<AssetId> for GameApp {
-    fn start(&mut self, audio: &mut Audio<AssetId>) { audio.loop_music(MusicId::BgMusic); }
+    fn start(&mut self, ctx: &mut AppContext<AssetId>) { ctx.audio.loop_music(MusicId::BgMusic); }
 
-    fn render(&mut self, renderer: &mut Renderer<AssetId>) {
-        self.board.draw(renderer);
+    fn render(&mut self, renderer: &mut Renderer<AssetId>, ctx: &AppContext<AssetId>) {
+        self.board.draw(renderer, ctx.dims().0);
         if self.level == 0 {
             renderer.sprite_mode().draw(&Affine::scale(2.), SpriteId::Instructions);
         }
     }
 
-    fn advance(&mut self, seconds: f64, audio: &mut Audio<AssetId>) -> bool {
-        self.board.advance(seconds, audio);
-        if self.board.is_done() { self.load_next_level(); }
-        true
+    fn advance(&mut self, seconds: f64, ctx: &mut AppContext<AssetId>) {
+        self.board.advance(seconds, &mut ctx.audio);
+        if self.board.is_done() {
+            self.load_next_level();
+        }
     }
 
-    fn input(&mut self, event: KeyEvent, key: KeyCode, _: &mut Audio<AssetId>) -> bool {
-        if let Some(event) = self.input.input(event, key) { self.board.input(event); }
-        true
+    fn key_down(&mut self, key: KeyCode, _: &mut AppContext<AssetId>) {
+        if let Some(event) = self.input.key_down(key) {
+            self.board.input(event);
+        }
+    }
+
+    fn key_up(&mut self, key: KeyCode, _: &mut AppContext<AssetId>) {
+        if let Some(event) = self.input.key_up(key) {
+            self.board.input(event);
+        }
     }
 }

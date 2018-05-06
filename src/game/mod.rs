@@ -329,11 +329,10 @@ impl GameBoard {
     }
 
     // TODO consider only drawing tiles that are on-screen?
-    pub fn draw(&mut self, renderer: &mut Renderer<AssetId>) {
+    pub fn draw(&mut self, renderer: &mut Renderer<AssetId>, screen_pixels_width: f64) {
         let time = self.time();
         let player_pos = self.player_pos();
-        let camera = self.camera_pos(renderer.app_width());
-        let screen_pixels_width = renderer.app_width();
+        let camera = self.camera_pos(screen_pixels_width);
         background::draw(renderer, camera, self.room_pixels(), time, screen_pixels_width);
         {
             let renderer = &mut renderer.tiled_mode(camera.x, camera.y);

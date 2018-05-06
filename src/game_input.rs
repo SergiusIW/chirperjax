@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use gate::input::{KeyEvent, KeyCode};
+use gate::KeyCode;
 
 #[derive(PartialEq, Eq, Copy, Clone, Hash)]
 pub enum HorizDir { Left, Right }
@@ -47,28 +47,25 @@ pub struct GameInput { held_dirs: Vec<HorizDir> }
 impl GameInput {
     pub fn new() -> GameInput { GameInput { held_dirs: Vec::new() } }
 
-    pub fn input(&mut self, event: KeyEvent, key: KeyCode) -> Option<InputEvent> {
-        match event {
-            KeyEvent::Pressed => {
-                if let Some(dir) = HorizDir::from_key(key) {
-                    self.held_dirs.push(dir);
-                    Some(InputEvent::UpdateMovement(Some(dir)))
-                } else if key == KeyCode::Up {
-                    Some(InputEvent::PressJump)
-                } else {
-                    None
-                }
-            },
-            KeyEvent::Released => {
-                if let Some(dir) = HorizDir::from_key(key) {
-                    self.held_dirs.retain(|&d| d != dir);
-                    Some(InputEvent::UpdateMovement(self.held_dir()))
-                } else if key == KeyCode::Up {
-                    Some(InputEvent::ReleaseJump)
-                } else {
-                    None
-                }
-            },
+    pub fn key_down(&mut self, key: KeyCode) -> Option<InputEvent> {
+        if let Some(dir) = HorizDir::from_key(key) {
+            self.held_dirs.push(dir);
+            Some(InputEvent::UpdateMovement(Some(dir)))
+        } else if key == KeyCode::Up {
+            Some(InputEvent::PressJump)
+        } else {
+            None
+        }
+    }
+
+    pub fn key_up(&mut self, key: KeyCode) -> Option<InputEvent> {
+        if let Some(dir) = HorizDir::from_key(key) {
+            self.held_dirs.retain(|&d| d != dir);
+            Some(InputEvent::UpdateMovement(self.held_dir()))
+        } else if key == KeyCode::Up {
+            Some(InputEvent::ReleaseJump)
+        } else {
+            None
         }
     }
 
