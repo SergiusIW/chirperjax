@@ -14,8 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#[macro_use]
 extern crate gate;
 extern crate collider;
+
+gate_header!();
 
 mod level_loader;
 mod game_input;
@@ -31,7 +34,10 @@ use asset_id::{AssetId, MusicId, SpriteId};
 use level_loader::LEVEL_COUNT;
 
 fn main() {
-    let info = AppInfo::with_app_height(game::SCREEN_PIXELS_HEIGHT)
+    // TODO allow some flexibility in the app height
+    let info = AppInfo::with_max_dims(game::SCREEN_PIXELS_HEIGHT * 16. / 9., game::SCREEN_PIXELS_HEIGHT)
+                       .min_dims(game::SCREEN_PIXELS_HEIGHT * 4. / 3., game::SCREEN_PIXELS_HEIGHT)
+                       .tile_width(8)
                        .title("Gate Demo Game")
                        .print_workload_info()
                        .print_gl_info();
@@ -58,9 +64,10 @@ impl App<AssetId> for GameApp {
     fn start(&mut self, ctx: &mut AppContext<AssetId>) { ctx.audio.loop_music(MusicId::BgMusic); }
 
     fn render(&mut self, renderer: &mut Renderer<AssetId>, ctx: &AppContext<AssetId>) {
-        self.board.draw(renderer, ctx.dims().0);
+        self.board.draw(renderer, ctx);
         if self.level == 0 {
-            renderer.sprite_mode().draw(&Affine::scale(2.), SpriteId::Instructions);
+            let affine = &Affine::translate(0.5 * ctx.dims().0, 0.5 * ctx.dims().1).pre_scale(2.);
+            renderer.sprite_mode().draw(affine, SpriteId::Instructions);
         }
     }
 

@@ -16,11 +16,11 @@
 
 use std::f64;
 
-use gate::renderer::{SpriteRenderer, TiledRenderer, Affine};
+use gate::renderer::{SpriteRenderer, Affine};
 
 use collider::geom::{Shape, Vec2, v2, Card};
 
-use asset_id::{AssetId, SpriteId, TileId};
+use asset_id::{AssetId, SpriteId};
 use super::Idx2;
 use super::util::{idx_to_vec, vec_to_affine};
 
@@ -105,11 +105,8 @@ impl Lasor {
         support_angle + angle_delta
     }
 
-    pub fn draw_support(&self, renderer: &mut TiledRenderer<AssetId>) {
-        renderer.draw(&vec_to_affine(self.pos).pre_rotate(self.support_angle() + f64::consts::PI), TileId::TileR2C3);
-    }
-
     pub fn draw(&self, renderer: &mut SpriteRenderer<AssetId>, camera: Vec2, time: f64, next_fire_time: f64, player_pos: Vec2) {
+        renderer.draw(&vec_to_affine(self.pos - camera).pre_rotate(self.support_angle() + f64::consts::PI), SpriteId::TileR2C3);
         let angle = self.angle(player_pos);
         let lasor_affine = vec_to_affine(self.pos - camera).pre_rotate(angle + f64::consts::PI);
         renderer.draw(&lasor_affine, SpriteId::Lasor);

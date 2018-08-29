@@ -30,7 +30,7 @@ pub fn draw(renderer: &mut Renderer<AssetId>, camera: Vec2, room_pixels: Vec2, t
 
     let mut renderer = renderer.sprite_mode();
     let time = time + 0.125 * PERIOD;
-    let offset = (room_pixels * 0.5 - camera) * 0.5;
+    let offset = (room_pixels * 0.5 - (camera + 0.5 * v2(screen_pixels_width, SCREEN_PIXELS_HEIGHT))) * 0.5;
 
     draw_bg_piece_grid(&mut renderer, offset, time, screen_pixels_width);
     draw_bg_piece_grid(&mut renderer, offset + v2(SEPARATION, SEPARATION), time + 0.25 * PERIOD, screen_pixels_width);
@@ -52,11 +52,14 @@ fn draw_bg_piece_grid(renderer: &mut SpriteRenderer<AssetId>, center: Vec2, time
     let start_y_idx = ((-max_y - center.y) / separation).ceil() as i32;
     let end_y_idx = ((max_y - center.y) / separation).ceil() as i32;
 
+    let x_off = 0.5 * screen_pixels_width;
+    let y_off = 0.5 * SCREEN_PIXELS_HEIGHT;
+
     for x_idx in start_x_idx..end_x_idx {
         for y_idx in start_y_idx..end_y_idx {
             if (x_idx + y_idx) % 2 == 0 {
                 let pos = center + v2(separation * x_idx as f64, separation * y_idx as f64);
-                renderer.draw(&pre_affine.post_translate(pos.x, pos.y), SpriteId::BgPattern);
+                renderer.draw(&pre_affine.post_translate(pos.x + x_off, pos.y + y_off), SpriteId::BgPattern);
             }
         }
     }

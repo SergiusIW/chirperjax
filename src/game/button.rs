@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use gate::renderer::{TiledRenderer, Affine};
+use gate::renderer::{SpriteRenderer, Affine};
 
 use collider::geom::{Shape, PlacedShape, v2};
 
-use asset_id::{AssetId, TileId};
+use asset_id::{AssetId, SpriteId};
 use super::{CELL_LEN, Idx2};
 use super::platform::PlatformKind;
 use super::util::idx_to_vec;
@@ -33,6 +33,6 @@ pub fn shape(pos: Idx2) -> PlacedShape {
     Shape::rect(v2(WIDTH, HEIGHT)).place(idx_to_vec(pos) + v2(0., Y_OFFSET))
 }
 
-pub fn draw(renderer: &mut TiledRenderer<AssetId>, affine: Affine) {
-    renderer.draw(&affine.pre_translate(0., -Y_OFFSET), TileId::TileR1C2);
+pub fn draw(renderer: &mut SpriteRenderer<AssetId>, affine: Affine) {
+    renderer.draw(&affine.pre_translate(0., -Y_OFFSET), SpriteId::TileR1C2);
 }

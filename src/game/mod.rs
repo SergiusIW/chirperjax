@@ -31,7 +31,7 @@ mod warp;
 use std::collections::HashMap;
 use std::f64;
 
-use gate::Audio;
+use gate::{Audio, AppContext};
 use gate::renderer::Renderer;
 
 use collider::{Collider, HbId, HbVel, HbEvent, HbProfile};
@@ -329,44 +329,41 @@ impl GameBoard {
     }
 
     // TODO consider only drawing tiles that are on-screen?
-    pub fn draw(&mut self, renderer: &mut Renderer<AssetId>, screen_pixels_width: f64) {
+    pub fn draw(&mut self, renderer: &mut Renderer<AssetId>, ctx: &AppContext<AssetId>) {
         let time = self.time();
         let player_pos = self.player_pos();
-        let camera = self.camera_pos(screen_pixels_width);
-        background::draw(renderer, camera, self.room_pixels(), time, screen_pixels_width);
-        {
-            let renderer = &mut renderer.tiled_mode(camera.x, camera.y);
-            for (&pos, cell) in self.grid.iter() { cell.draw(renderer, pos); }
-            for &button_id in self.buttons.keys() {
-                button::draw(renderer, vec_to_affine(self.hb_pos(button_id)));
-            }
-            for lasor in &self.lasors { lasor.draw_support(renderer); }
+        let camera = self.camera_pos(ctx);
+        background::draw(renderer, camera, self.room_pixels(), time, ctx.dims().0);
+        let renderer = &mut renderer.sprite_mode();
+        for (&pos, cell) in self.grid.iter() { cell.draw(renderer, idx_to_vec(pos) - camera); }
+        for &button_id in self.buttons.keys() {
+            button::draw(renderer, vec_to_affine(self.hb_pos(button_id) - camera));
         }
-        {
-            let renderer = &mut renderer.sprite_mode();
-            for (&platform_id, platform) in self.platforms.iter() {
-                platform.draw(renderer, vec_to_affine(self.hb_pos(platform_id) - camera), time);
-            }
-            let next_lasor_fire_time = self.step_queue.peek_specific(Step::LasorFire);
-            for lasor in &self.lasors {
-                lasor.draw(renderer, camera, time, next_lasor_fire_time, player_pos);
-            }
-            for (&warp_id, &warp_color) in self.warps.iter() {
-                warp_color.draw_warp(renderer, vec_to_affine(self.hb_pos(warp_id) - camera), time);
-            }
-            self.star.draw(renderer, vec_to_affine(self.hb_pos(self.star.id()) - camera), time);
-            self.effects.retain(|e| e.draw(renderer, camera, time));
-            self.player.draw(renderer, vec_to_affine(player_pos - camera), time);
+        for (&platform_id, platform) in self.platforms.iter() {
+            platform.draw(renderer, vec_to_affine(self.hb_pos(platform_id) - camera), time);
         }
+        let next_lasor_fire_time = self.step_queue.peek_specific(Step::LasorFire);
+        for lasor in &self.lasors {
+            lasor.draw(renderer, camera, time, next_lasor_fire_time, player_pos);
+        }
+        for (&warp_id, &warp_color) in self.warps.iter() {
+            warp_color.draw_warp(renderer, vec_to_affine(self.hb_pos(warp_id) - camera), time);
+        }
+        self.star.draw(renderer, vec_to_affine(self.hb_pos(self.star.id()) - camera), time);
+        self.effects.retain(|e| e.draw(renderer, camera, time));
+        self.player.draw(renderer, vec_to_affine(player_pos - camera), time);
     }
 
-    fn camera_pos(&self, screen_pixels_width: f64) -> Vec2 {
+    fn camera_pos(&self, ctx: &AppContext<AssetId>) -> Vec2 {
+        let screen_pixels_width = ctx.dims().0;
         fn coord(player: f64, room_pixels: f64, screen_pixels: f64) -> f64 {
-            player.max(0.5 * screen_pixels).min(room_pixels - 0.5 * screen_pixels)
+            (player - 0.5 * screen_pixels).max(0.).min(room_pixels - screen_pixels)
         }
         let player = self.player_pos();
         let room_pixels = self.room_pixels();
-        v2(coord(player.x, room_pixels.x, screen_pixels_width), coord(player.y, room_pixels.y, SCREEN_PIXELS_HEIGHT))
+        let (x, y) = (coord(player.x, room_pixels.x, screen_pixels_width), coord(player.y, room_pixels.y, SCREEN_PIXELS_HEIGHT));
+        let (x, y) = ctx.native_px_align(x, y);
+        v2(x, y)
     }
 
     fn hb_pos(&self, id: HbId) -> Vec2 { self.collider.get_hitbox(id).value.pos }
