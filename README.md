@@ -5,7 +5,7 @@ A simple 2D platformer game that demonstrates the use of two Rust crates:
 ### Play Online
 
 Thanks to WebAssembly and WebGl, you can play this game online at
-<http://www.matthewmichelotti.com/games/gate_demo/play/>.
+<http://www.luduminis.com/chirperjax/>.
 
 ### Building
 
