@@ -14,11 +14,11 @@ See <https://github.com/SergiusIW/gate/tree/master/example>.
 
 ### Videos
 
-Introducing Gate and this Demo game: https://youtu.be/SR-Yx6nTfZY
+Introducing Gate and this game: https://youtu.be/SR-Yx6nTfZY
 
 ### License
 
-The Gate Demo source code is licensed under the
+Chirperjax source code is licensed under the
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
-The Gate Demo assets, found in the `src_assets/` directory, are licensed under the
+Chirperjax assets, found in the `src_assets/` directory, are licensed under the
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
