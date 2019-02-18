@@ -1,4 +1,4 @@
-// gate_demo, a demo game built using the "gate" game library.
+// chirperjax, a demo game built using the "gate" game library.
 // Copyright (C) 2017-2019  Matthew D. Michelotti
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ fn main() {
     let info = AppInfo::with_max_dims(game::SCREEN_PIXELS_HEIGHT * 16. / 9., game::SCREEN_PIXELS_HEIGHT)
                        .min_dims(game::SCREEN_PIXELS_HEIGHT * 4. / 3., game::SCREEN_PIXELS_HEIGHT)
                        .tile_width(8)
-                       .title("Gate Demo Game")
+                       .title("Chirperjax")
                        .print_workload_info()
                        .print_gl_info();
     gate::run(info, GameApp::new());

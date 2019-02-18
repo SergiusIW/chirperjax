@@ -1,4 +1,4 @@
-// gate_demo, a demo game built using the "gate" game library.
+// chirperjax, a demo game built using the "gate" game library.
 // Copyright (C) 2017-2019  Matthew D. Michelotti
 //
 // This program is free software: you can redistribute it and/or modify

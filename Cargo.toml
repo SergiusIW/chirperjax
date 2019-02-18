@@ -1,5 +1,5 @@
 [package]
-name = "gate_demo"
+name = "chirperjax"
 version = "0.1.0"
 
 [dependencies]
