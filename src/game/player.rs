@@ -22,8 +22,8 @@ use gate::renderer::{SpriteRenderer, Affine};
 
 use super::PieceProfile;
 use super::util::nearest_card;
-use game_input::HorizDir;
-use asset_id::{AssetId, SpriteId, SoundId};
+use crate::game_input::HorizDir;
+use crate::asset_id::{AssetId, SpriteId, SoundId};
 
 pub const STEP_PERIOD: f64 = 1. / 60.;
 

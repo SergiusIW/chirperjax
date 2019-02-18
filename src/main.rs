@@ -28,10 +28,10 @@ mod asset_id { include!(concat!(env!("OUT_DIR"), "/asset_id.rs")); }
 use gate::{App, AppContext, AppInfo, KeyCode};
 use gate::renderer::{Renderer, Affine};
 
-use game_input::{GameInput, InputEvent};
-use game::GameBoard;
-use asset_id::{AssetId, MusicId, SpriteId};
-use level_loader::LEVEL_COUNT;
+use crate::game_input::{GameInput, InputEvent};
+use crate::game::GameBoard;
+use crate::asset_id::{AssetId, MusicId, SpriteId};
+use crate::level_loader::LEVEL_COUNT;
 
 fn main() {
     // TODO allow some flexibility in the app height

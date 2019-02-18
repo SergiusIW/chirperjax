@@ -18,7 +18,7 @@ use gate::renderer::{SpriteRenderer, Affine};
 
 use collider::geom::Vec2;
 
-use asset_id::{AssetId, SpriteId};
+use crate::asset_id::{AssetId, SpriteId};
 use super::util::vec_to_affine;
 use super::warp::WarpColor;
 

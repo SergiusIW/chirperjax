@@ -21,7 +21,7 @@ use gate::renderer::{SpriteRenderer, Affine};
 use collider::{HbId, Hitbox};
 use collider::geom::Shape;
 
-use asset_id::{AssetId, SpriteId};
+use crate::asset_id::{AssetId, SpriteId};
 use super::Idx2;
 use super::util::idx_to_vec;
 

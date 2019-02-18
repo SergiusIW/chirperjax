@@ -20,7 +20,7 @@ use gate::renderer::{SpriteRenderer, Affine};
 
 use collider::geom::{Shape, Vec2, v2, Card};
 
-use asset_id::{AssetId, SpriteId};
+use crate::asset_id::{AssetId, SpriteId};
 use super::Idx2;
 use super::util::{idx_to_vec, vec_to_affine};
 

@@ -18,7 +18,7 @@ use gate::renderer::{SpriteRenderer, Affine};
 
 use collider::geom::{Shape, PlacedShape, v2};
 
-use asset_id::{AssetId, SpriteId};
+use crate::asset_id::{AssetId, SpriteId};
 use super::{CELL_LEN, Idx2};
 use super::platform::PlatformKind;
 use super::util::idx_to_vec;

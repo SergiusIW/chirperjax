@@ -37,8 +37,8 @@ use gate::renderer::Renderer;
 use collider::{Collider, HbId, HbVel, HbEvent, HbProfile};
 use collider::geom::{v2, Vec2, Card, CardMask, Shape};
 
-use game_input::{InputEvent, HorizDir};
-use asset_id::{AssetId, SoundId};
+use crate::game_input::{InputEvent, HorizDir};
+use crate::asset_id::{AssetId, SoundId};
 use self::piece_profile::{PieceKind, PieceProfile};
 use self::player_enum::{PlayerEnum, PlayerComplete, PlayerWarping};
 use self::player::Player;

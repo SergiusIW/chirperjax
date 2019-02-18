@@ -21,7 +21,7 @@ use gate::renderer::{SpriteRenderer, Affine};
 use collider::Collider;
 use collider::geom::Vec2;
 
-use asset_id::{AssetId, SpriteId};
+use crate::asset_id::{AssetId, SpriteId};
 use super::player::Player;
 use super::star;
 use super::piece_profile::PieceProfile;

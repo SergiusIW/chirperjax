@@ -18,7 +18,7 @@ use gate::renderer::{Renderer, SpriteRenderer, Affine};
 
 use collider::geom::{v2, Vec2};
 
-use asset_id::{AssetId, SpriteId};
+use crate::asset_id::{AssetId, SpriteId};
 use super::SCREEN_PIXELS_HEIGHT;
 
 const COLOR: (u8, u8, u8) = (203, 219, 255);

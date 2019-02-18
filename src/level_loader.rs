@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-use game::{GameBoard, LasorKind, PlatformKind, WarpColor, Idx2};
+use crate::game::{GameBoard, LasorKind, PlatformKind, WarpColor, Idx2};
 
 pub const LEVEL_COUNT: usize = 7;
 
