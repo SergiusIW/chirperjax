@@ -22,7 +22,7 @@ use crate::asset_id::{AssetId, SpriteId};
 use super::util::vec_to_affine;
 use super::warp::WarpColor;
 
-pub struct Effect { value: Box<InternalEffect>, pos: Vec2, start_time: f64 }
+pub struct Effect { value: Box<dyn InternalEffect>, pos: Vec2, start_time: f64 }
 
 impl Effect {
     pub fn draw(&self, renderer: &mut SpriteRenderer<AssetId>, camera: Vec2, time: f64) -> bool {
