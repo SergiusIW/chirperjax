@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-gate = "0.6.2"
+gate = "0.6.3"
 collider = "0.3.0"
 
 [build-dependencies]
-gate_build = "0.6.2"
+gate_build = "0.6.3"
